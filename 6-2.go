@@ -39,9 +39,8 @@ func indexOfMax(banks []int) int {
 
 func run(banks []int) {
 	memo := make(map[string]int)
-	steps := 0
 	cycled := false
-	for {
+	for steps := 0; ; steps++ {
 		key := keyFor(banks)
 		foundOn, found := memo[key]
 		if found {
@@ -58,7 +57,6 @@ func run(banks []int) {
 		}
 		rebalance(banks)
 		memo[key] = steps
-		steps += 1
 	}
 }
 
