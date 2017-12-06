@@ -536,10 +536,10 @@ def part2
   arr = @str.split("\n")
   count = 0
   arr.each do |phrase|
-    sorted = phrase.split.sort.map {|w| w.split(//).sort.join }.sort
+    sorted = phrase.split.map {|w| w.split(//).sort.join }.sort
     valid = true
     sorted.each_with_index do |word, i|
-      if sorted[i-1] == word || sorted[i+1] == word
+      if sorted[i-1] == word
         valid = false
       end
     end
