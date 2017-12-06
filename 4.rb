@@ -1,4 +1,5 @@
-str = <<-EOS
+require 'pry-byebug'
+@str = <<-EOS
 nyot babgr babgr kqtu kqtu kzshonp ylyk psqk
 iix ewj rojvbkk phrij iix zuajnk tadv givslju ewj bda
 isjur jppvano vctnpjp ngwzdq pxqfrk mnxxes zqwgnd giqh
@@ -513,5 +514,39 @@ dflx gdtb jyoj jyoj dflx aqhycgi xffnn
 inc mpys mzqmcwx vryz ibqrzc pmsy fat rojpxwy rcbqzi gjef
 EOS
 
-arr = str.split("\n")
+def part1
+  arr = @str.split("\n")
+  count = 0
+  arr.each do |phrase|
+    sorted = phrase.split.sort
+    valid = true
+    sorted.each_with_index do |word, i|
+      if sorted[i-1] == word
+        valid = false
+      end
+    end
+    if valid
+      count += 1
+    end
+  end
+  puts count
+end
 
+def part2
+  arr = @str.split("\n")
+  count = 0
+  arr.each do |phrase|
+    sorted = phrase.split.sort.map {|w| w.split(//).sort.join }.sort
+    valid = true
+    sorted.each_with_index do |word, i|
+      if sorted[i-1] == word || sorted[i+1] == word
+        valid = false
+      end
+    end
+    if valid
+      count += 1
+    end
+  end
+  puts count
+end
+part2
