@@ -60,6 +60,7 @@ func run(banks []int) {
 	}
 }
 
+// Could be done in one pass
 func rebalance(banks []int) {
 	maxIndex := indexOfMax(banks)
 	maxVal := banks[maxIndex]
