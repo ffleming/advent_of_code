@@ -43,9 +43,8 @@ func run(banks []int) {
 	cycled := false
 	for {
 		key := keyFor(banks)
-		_, found := memo[key]
+		foundOn, found := memo[key]
 		if found {
-			foundOn := memo[key]
 			memo = make(map[string]int)
 			if cycled {
 				fmt.Print("Found ", banks, " again on step ", steps, ", ")
