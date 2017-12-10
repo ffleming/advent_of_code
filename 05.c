@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 int main(int argc, char** argv) {
-    FILE* f = fopen("5.txt", "r");
+    FILE* f = fopen("05.txt", "r");
     char* line = malloc(10);
     int* arr = malloc(4 * 2048);
     int i = 0;

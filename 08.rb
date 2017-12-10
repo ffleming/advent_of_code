@@ -95,6 +95,6 @@ class RegisterBank
   end
 end
 
-bank = RegisterBank.new("8.txt").run
+bank = RegisterBank.new("08.txt").run
 puts "Post-run maximum: #{bank.max_register}"
 puts "Runtime maximum: #{bank.runtime_maximum}"

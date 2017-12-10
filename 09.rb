@@ -54,6 +54,6 @@ class Parser
   end
 end
 
-parser = Parser.new('9.txt')
+parser = Parser.new('09.txt')
 puts "Final score: #{parser.score}"
 puts "Garbage count: #{parser.garbage_count}"

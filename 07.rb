@@ -108,6 +108,6 @@ class Graph
   end
 end
 
-g = Graph.from("7.txt")
+g = Graph.from("07.txt")
 puts "Root is #{g.root.name}"
 g.broken_info

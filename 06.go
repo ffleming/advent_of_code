@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	bytes, e := ioutil.ReadFile("6.txt")
+	bytes, e := ioutil.ReadFile("06.txt")
 	if e != nil {
 		panic(e)
 	}
