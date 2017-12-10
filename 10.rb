@@ -29,7 +29,7 @@ end
 
 class KnotAlgo
   attr_reader :debug, :list
-  def initialize(filename, debug: true)
+  def initialize(filename, debug: false)
     range_end = if filename == 'test.txt'
             4
           else
@@ -124,5 +124,6 @@ class KnotHash
   end
 end
 
+puts "Part 1: #{KnotAlgo.new('10.txt').run.solution}"
 k = KnotHash.new("10.txt").run
-puts "Hash: '#{k.hash}'"
+puts "Part 2: '#{k.hash}'"
