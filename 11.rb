@@ -6,6 +6,7 @@ class HexGrid
     @debug = debug
     @inputs = str.strip.split(",").map(&:to_sym)
     @longest_distance = 0
+    @distances = {}
   end
 
   def target
@@ -31,7 +32,16 @@ class HexGrid
         y -= 0.5
         x -= 1.0
       end
-      dist = distance_for(x, y)
+      # this kills perf
+      # ruby 11.rb  1.73s user 0.20s system 90% cpu 2.142 total
+      # memoizing distances helps a bit but still
+      # ruby 11.rb  1.53s user 0.13s system 97% cpu 1.700 total
+      dist = if @distances[ [x,y] ]
+               @distances[ [x,y] ]
+             else
+               distance_for(x, y)
+             end
+      @distances[ [x,y] ] = dist
       if dist > @longest_distance
         @longest_distance = dist
       end
