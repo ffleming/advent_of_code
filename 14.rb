@@ -6,17 +6,6 @@ class String
   end
 end
 
-class Node
-  attr_reader :row, :col
-  attr_accessor :neighbors, :value
-  def initialize(row: , col: , value: )
-    @row = row
-    @col = col
-    @value = value
-    @neighbors = []
-  end
-end
-
 class Defrag
   attr_reader :memory
   def initialize(str)
@@ -44,34 +33,28 @@ class Defrag
     (0..127).each do |row|
       (0..127).each do |col|
         val = memory[row][col] == '1' ? '#' : '.'
-        nodes[row][col] = Node.new(row: row, col: col, value: val)
-      end
-    end
-    nodes.each do |row|
-      row.each do |node|
-        node.neighbors = neighbors_for(node.row, node.col).map do |neighbor_row, neighbor_col|
-          nodes[neighbor_row][neighbor_col]
-        end
+        nodes[row][col] = val
       end
     end
     _regions = 0
-    nodes.each do |row|
-      row.each do |node|
-        if node.value == '#'
+    nodes.each_with_index do |arr, row|
+      arr.each_index do |col|
+        if nodes[row][col] == '#'
           _regions += 1
-          paint(node, _regions)
+          nodes = paint(row,col, _regions, nodes)
         end
       end
     end
     _regions
   end
 
-  def paint(node, val)
-    node.value = val.to_s
-    node.neighbors.each do |n|
-      next if n.value != '#'
-      paint(n, val)
+  def paint(row, col, val, nodes)
+    nodes[row][col] = val
+    neighbors_for(row, col).each do |r, c|
+      next if nodes[r][c] != '#'
+      nodes = paint(r, c, val, nodes)
     end
+    nodes
   end
 end
 
