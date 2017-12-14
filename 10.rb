@@ -124,6 +124,6 @@ class KnotHash
   end
 end
 
-puts "Part 1: #{KnotAlgo.new('10.txt').run.solution}"
-k = KnotHash.new(File.read("10.txt")).run
-puts "Part 2: '#{k.hash}'"
+# puts "Part 1: #{KnotAlgo.new('10.txt').run.solution}"
+# k = KnotHash.new(File.read("10.txt")).run
+# puts "Part 2: '#{k.hash}'"
