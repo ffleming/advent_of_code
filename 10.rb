@@ -79,9 +79,9 @@ end
 
 class KnotHash
   attr_reader :debug, :list
-  def initialize(filename)
+  def initialize(str)
     @list = (0..255).to_a
-    @inputs = File.read(filename).strip.bytes + [17, 31, 73, 47, 23]
+    @inputs = str.strip.bytes + [17, 31, 73, 47, 23]
     @position = 0
     @skip_size = 0
     @debug = debug
@@ -125,5 +125,5 @@ class KnotHash
 end
 
 puts "Part 1: #{KnotAlgo.new('10.txt').run.solution}"
-k = KnotHash.new("10.txt").run
+k = KnotHash.new(File.read("10.txt")).run
 puts "Part 2: '#{k.hash}'"
