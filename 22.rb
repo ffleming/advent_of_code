@@ -1,9 +1,14 @@
 require 'pry-byebug'
 class Infector
+  NORTH = [-1,0].freeze
+  SOUTH = [1,0].freeze
+  EAST = [0,-1].freeze
+  WEST = [0,1].freeze
+
   attr_reader :board, :position, :heading, :infections, :debug, :part
   def initialize(str, debug: false, part: 2)
     @board = str.split("\n").map {|l| l.split(//)}
-    @heading = [-1, 0] # north
+    @heading = NORTH
     @position = [ (@board.length - 1 ) / 2,
             (@board.first.length - 1) /2 ]
     @infections = 0
@@ -11,49 +16,38 @@ class Infector
     @part = part
   end
 
+  HEADING_CHARS = { EAST => '>', WEST => '<', SOUTH => 'v', NORTH => '^'}.freeze
   def to_s
-    ret = ''
-    board.each_with_index do |r_values, row|
+    board.each_with_index.with_object('') do |(r_values, row), memo|
       r_values.each_index do |col|
-        char = if @position[0] == row && position[1] == col
-                 case heading
-                 when [0, 1]
-                   '>'
-                 when [0, -1]
-                   '<'
-                 when [1, 0]
-                   'v'
-                 when [-1, 0]
-                   '^'
-                 end
+        memo << if position[0] == row && position[1] == col
+                 HEADING_CHARS.fetch(heading)
                else
                  board[row][col]
                end
-        ret << char
       end
-      ret << "\n"
+      memo << "\n"
     end
-    ret
   end
 
   def grow_board
     rows = board.length
     cols = board.first.length
     case heading
-    when [0, 1] #east
+    when WEST
       if position[1] == cols - 1
         board.each { |arr| arr << '.' }
       end
-    when [0, -1] #west
+    when EAST
       if position[1] == 0
         board.each { |arr| arr.insert(0, '.') }
         @position[1] += 1
       end
-    when [1, 0] #south
+    when SOUTH
       if position[0] == rows - 1
         @board << Array.new(cols, '.')
       end
-    when [-1, 0] # north
+    when NORTH
       if position[0] == 0
         @board.insert(0, Array.new(cols, '.'))
         @position[0] += 1
@@ -76,10 +70,10 @@ class Infector
       turn_left
     end
     if clean?
-      board[position[0]][position[1]] = '#'
+      self.current_node = '#'
       @infections += 1
     else
-      board[position[0]][position[1]] = '.'
+      self.current_node = '.'
     end
     move_forward
   end
@@ -97,14 +91,14 @@ class Infector
     end
 
     if clean?
-      board[position[0]][position[1]] = 'W'
+      self.current_node = 'W'
     elsif weakened?
-      board[position[0]][position[1]] = '#'
+      self.current_node = '#'
       @infections += 1
     elsif infected?
-      board[position[0]][position[1]] = 'F'
+      self.current_node = 'F'
     elsif flagged?
-      board[position[0]][position[1]] = '.'
+      self.current_node = '.'
     end
 
     move_forward
@@ -112,6 +106,10 @@ class Infector
 
   def current_node
     board[position[0]][position[1]]
+  end
+
+  def current_node=(obj)
+    board[position[0]][position[1]] = obj
   end
 
   def infected?
@@ -156,7 +154,6 @@ class Infector
   def turn_left
     @heading = [-heading[1], heading[0]]
   end
-
 end
 TEST = <<-EOS
 ..#
