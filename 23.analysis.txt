@@ -1,0 +1,80 @@
+b = 106500
+c = 123500
+
+WHILE true
+  f = 1
+  d = 2
+      e = 2
+          g = d * e
+          g = g - b
+
+          if (d * e) == b # equivalent to '(d * e) - b == 0'
+            f = 0
+          end
+          e = e + 1
+          LOOP if e > b
+
+      d += 1
+      g = d - b
+      LOOP if g != 0
+  if f == 0
+    h = h + 1
+  g = b
+  g = g - c
+  if g == 0
+    TERM
+  b = b + 17
+LOOP
+
+# add loops
+WHILE true
+  f = 1
+  for(d = 2; d < b; d++) {
+      for(e = 2; e < b; e++) {
+          if (d * e == b )
+            f = 0
+          end
+      }
+  }
+  if f == 0
+    h = h + 1
+  g = b
+  g = g - c
+  if g == 0
+    TERM
+  b = b + 17
+LOOP
+
+# extract flag, simplify conditionals
+
+WHILE true
+  flag = false
+  for(d = 2; d < b; d++) {
+      for(e = 2; e < b; e++) {
+          if (d * e == b )
+            flag = true
+          end
+      }
+  }
+  if flag {
+    h != 1
+  }
+  if b == c
+    TERM
+  b = b + 17
+LOOP
+
+as ruby:
+
+b = 106500
+c = 123500
+answer = 0
+(b..c).step(17).each do |n|
+  (2..106500).map do |i|
+    (2..106500).map do |j|
+      answer += 1 if i * j == b
+    end
+  end
+end
+
+the inner two loops are just a prime check, see 23.rb
